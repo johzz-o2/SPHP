@@ -92,15 +92,15 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 
 				if (u <= ub1)
 				{
-					//ÕâÀïÊÇ³ËÒÔH¾ØÕó
-					double value = (double)(h00*X_temp + h01*Y_temp + h02) / (h20*X_temp + h21*Y_temp + h22);//ÔÚÕâÀï³öÏÖÁËºÜ´óµÄÆ«²î,ÊÇÒòÎªmatlabÀïH¾ØÕóÓÃµÄÊÇc1paramÖÐµÄH£¬Õâ¸öHÊÇH01£¬¶øÎÒÒÔÎªÊÇÊý×éHÖÐµÄH
+					//ï¿½ï¿½ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½Hï¿½ï¿½ï¿½ï¿½
+					double value = (double)(h00*X_temp + h01*Y_temp + h02) / (h20*X_temp + h21*Y_temp + h22);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ËºÜ´ï¿½ï¿½Æ«ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Îªmatlabï¿½ï¿½Hï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½c1paramï¿½Ðµï¿½Hï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½ï¿½H01ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½Ðµï¿½H
 					dataX[x] = value;
 					dataY[x] = (double)(h10*X_temp + h11*Y_temp + h12) / (h20*X_temp + h21*Y_temp + h22);
 
 				}
 				else if (u > ub1&&u <= ub2)
 				{
-					//ÕâÀïÊÇ¹ý¶ÉµØ´ø
+					//ï¿½ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½ÉµØ´ï¿½
 					if (zero_On == 0)
 					{
 						dataX[x] = (a0*u*u + a1*u + a2)*v + b0*u*u + b1*u + b2;
@@ -109,12 +109,12 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 					else
 					{
 						dataX[x] = (a0*u*u*u + a1*u*u + a2*u + a3)*v + b0*u*u + b1*u + b2;
-						dataY[x] = (e0*u*u*u + e1*u*u + e2*u + e3)*v + f0*u*u + f1*u + f2;//ÕâÀïÒ»¿ªÊ¼°Ñe3Ð´³ÉÁËa3£¬µ¼ÖÂ×îÖÕµÄÉú³ÉµÄÍ¼ÏñÓÐÎÊÌâ
+						dataY[x] = (e0*u*u*u + e1*u*u + e2*u + e3)*v + f0*u*u + f1*u + f2;//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ê¼ï¿½ï¿½e3Ð´ï¿½ï¿½ï¿½ï¿½a3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Éµï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					}
 				}
 				else
 				{
-					//ÕâÀïÊÇ³ËÒÔS¾ØÕó
+					//ï¿½ï¿½ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 					dataX[x] = (double)(s00*X_temp + s01*Y_temp + s02);
 					dataY[x] = (double)(s10*X_temp + s11*Y_temp + s12);
 				}
@@ -128,7 +128,7 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 		minMaxLoc(mapY[i], &minY[i], &maxY[i], 0, 0);
 	}
 
-	//ÕâÀïµÄ´¦ÀíÖ»Ö§³ÖÁ½ÕÅÍ¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½Ö»Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	double all_minX = min(minX[0], minX[1]);     double all_maxX = max(maxX[0], maxX[1]);
 	double all_minY = min(minY[0], minY[1]);     double all_maxY = max(maxY[0], maxY[1]);
 
@@ -148,9 +148,9 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 		matrix2Array(mapX[i], mask).copyTo(xy_mat[i].col(0));
 		matrix2Array(mapY[i], mask).copyTo(xy_mat[i].col(1));
 		matrix2Array(Mask_double, mask).copyTo(xy_mat[i].col(2));
-		//Mat temp = xy_mat[i]*tt;//matlab´úÂëÀïÓÃµÄÊÇapply_transformº¯Êý£¬ÒâË¼ÓëÕâ¸ö²»Ò»Ñù
+		//Mat temp = xy_mat[i]*tt;//matlabï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½apply_transformï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		Mat temp = applyTransform(xy_mat[i], tt);
-		array2Matrix(temp.col(0), mask, mapX[i]);//ÕâÀïÒ²ÓÃµ½ÁËarray2Matrix×¢ÒâÖµµÄÕýÈ·ÐÔ
+		array2Matrix(temp.col(0), mask, mapX[i]);//ï¿½ï¿½ï¿½ï¿½Ò²ï¿½Ãµï¿½ï¿½ï¿½array2Matrix×¢ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½
 		array2Matrix(temp.col(1), mask, mapY[i]);
 
 		minMaxLoc(mapX[i], &minX[i], &maxX[i], 0, 0);
@@ -161,8 +161,8 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 	all_minX = min(minX[0], minX[1]);    all_maxX = max(maxX[0], maxX[1]);
 	all_minY = min(minY[0], minY[1]);    all_maxY = max(maxY[0], maxY[1]);
 
-	/*ÕâÀïÃ»ÓÐ¼ÓmatlabÖÐscale downÕâÒ»²½£¬ÒòÎªmatlab´úÂëÖÐÕâÒ»
-	²¿·ÖÊÇÎªÁË·ÀÖ¹ÄÚ´æÒç³ö£¬¿ÉÒÔÍ¨¹ý¼õÐ¡Í¼Æ¬³ß´çÍê³É*/
+	/*ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð¼ï¿½matlabï¿½ï¿½scale downï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªmatlabï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ë·ï¿½Ö¹ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½Ð¡Í¼Æ¬ï¿½ß´ï¿½ï¿½ï¿½ï¿½*/
 	int tr_x = 5, tr_y = 5;
 	double ttt_array[3][3] = { { 1, 0, tr_x }, { 0, 1, tr_y }, { 0, 0, 1 } };
 	Mat T3 = Mat(3, 3, CV_64F, ttt_array);
@@ -175,11 +175,11 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 	int imgW_out = ceil(all_maxX - all_minX) + 1 + 2 * tr_x;
 	int imgH_out = ceil(all_maxY - all_minY) + 1 + 2 * tr_y;
 
-	//mappingÇó³öÀ´µÄÍ¼ÏñºÍmask¶¼ÊÇÃ¿Ò»ÕÅÍ¼ÏñµÄÊä³öÐèÒª¾­¹ýblending
+	//mappingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½maskï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½blending
 	Mat dsts[2];
 	Mat masks[2];
 
-	//mapping¶ÔÓ¦µÄ¾ÍÊÇmatlabÖÐtextureMapping.exe
+	//mappingï¿½ï¿½Ó¦ï¿½Ä¾ï¿½ï¿½ï¿½matlabï¿½ï¿½textureMapping.exe
 	cout << mapX[1] << endl;
 	mapping(srcImages, imgW_out, imgH_out, rowStep, colStep, mapX, mapY, dsts, masks);
 
@@ -204,7 +204,7 @@ void mapping(Mat* inputImages, int imgW_out, int imgH_out, double rowStep, doubl
 	int m = 0, n = 0;
 	Mat tempMatrix;
 
-	////ÕýÏò²åÖµ
+	////ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 	//for (int i = 0; i < NUMOFIMAGES; i++)
 	//{
 	//	m = 0;
@@ -225,7 +225,7 @@ void mapping(Mat* inputImages, int imgW_out, int imgH_out, double rowStep, doubl
 	//					corners_in[0].x = col; corners_in[0].y = row;             corners_in[1].x = col + colStep; corners_in[1].y = row;
 	//					corners_in[2].x = col; corners_in[2].y = row + rowStep;   corners_in[3].x = col + colStep; corners_in[3].y = row + rowStep;
 
-	//					//ÕâÀïÔ­À´Ð´µÄÊÇ£¨dataY+1£©[n]ÕâÑùÖ¸ÕëÊÇÃ»ÓÐÒÆ¶¯µÄ£¬ËùÒÔ³ö´íÁË
+	//					//ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ç£ï¿½dataY+1ï¿½ï¿½[n]ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½
 	//					corners_out[0].x = dataX[n]; corners_out[0].y = dataY[n];        corners_out[1].x = dataX[n + 1]; corners_out[1].y = dataY[n];
 	//					corners_out[2].x = dataX[n]; corners_out[2].y = dataY1[n];       corners_out[3].x = dataX[n + 1]; corners_out[3].y = dataY1[n];
 
@@ -309,7 +309,7 @@ void mapping(Mat* inputImages, int imgW_out, int imgH_out, double rowStep, doubl
 						corners_in[0].x = col; corners_in[0].y = row;             corners_in[1].x = col + colStep; corners_in[1].y = row;
 						corners_in[2].x = col; corners_in[2].y = row + rowStep;   corners_in[3].x = col + colStep; corners_in[3].y = row + rowStep;
 
-						//ÕâÀïÔ­À´Ð´µÄÊÇ£¨dataY+1£©[n]ÕâÑùÖ¸ÕëÊÇÃ»ÓÐÒÆ¶¯µÄ£¬ËùÒÔ³ö´íÁË
+						//ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ç£ï¿½dataY+1ï¿½ï¿½[n]ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½
 						corners_out[0].x = dataX[n]; corners_out[0].y = dataY[n];        corners_out[1].x = dataX[n + 1]; corners_out[1].y = dataY[n];
 						corners_out[2].x = dataX[n]; corners_out[2].y = dataY1[n];       corners_out[3].x = dataX[n + 1]; corners_out[3].y = dataY1[n];
 
@@ -326,7 +326,7 @@ void mapping(Mat* inputImages, int imgW_out, int imgH_out, double rowStep, doubl
 
 						vector<vector<Point> > contours1;
 						vector<Vec4i> hierarchy1;
-						findContours(tempImage, contours1, hierarchy1, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+						findContours(tempImage, contours1, hierarchy1, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 						drawContours(canvas, contours1, -1, Scalar(255), -1);
 
 						
@@ -377,7 +377,7 @@ void mapping(Mat* inputImages, int imgW_out, int imgH_out, double rowStep, doubl
 			}
 			m++;
 		}
-		remap(inputImages[i], dst[i], transMap2dstX[i], transMap2dstY[i], CV_INTER_CUBIC, BORDER_CONSTANT, Scalar(0, 0, 0));
+		remap(inputImages[i], dst[i], transMap2dstX[i], transMap2dstY[i], cv::INTER_CUBIC, BORDER_CONSTANT, Scalar(0, 0, 0));
 	}
 
 	
@@ -499,10 +499,10 @@ Mat blending(Mat *dsts, Mat *masks, int type)
 
 				proj_val = (proj_val - min_proj_val) / (max_proj_val - min_proj_val);
 
-				//¼ÆËãÈ¨ÖØÍ¼
+				//ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½Í¼
 				for (int row = 0; row < locationsOFNonZero.rows; row++)
 				{
-					//locationsOfNonZero2ColsµÚÒ»ÁÐÊÇx×ø±ê£¬µÚ¶þÁÐÊÇy×ø±ê
+					//locationsOfNonZero2Colsï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ê£¬ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 					int location_row = locationsOfNonZero2Cols.at<double>(row, 1);
 					int location_col = locationsOfNonZero2Cols.at<double>(row, 0);
 					double weight = proj_val.at<double>(row, 0);
@@ -511,7 +511,7 @@ Mat blending(Mat *dsts, Mat *masks, int type)
 				}
 
 
-				//Èý¸öÇøÓòµ¥¶ÀµÄÈ¨ÖØÒÑ¾­ÓÐÁË£¬ÏÂÃæ¾ÍÊÇ½«Á½¸ö°ë¸öµÄ²ÊÍ¼°´ÕÕÈ¨ÖØÆ´³ÉÒ»¸öÈ«¾°Í¼
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½òµ¥¶ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½Í¼ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½Æ´ï¿½ï¿½Ò»ï¿½ï¿½È«ï¿½ï¿½Í¼
 				Mat mask1 = dst_mask&outWeightMask;
 				Mat mask2 = outWeightmap;
 				Mat mask3 = masks[i] & outWeightMask;
@@ -523,8 +523,8 @@ Mat blending(Mat *dsts, Mat *masks, int type)
 				imshow("d_mask1", d_mask1);
 				imshow("d_mask3", d_mask3);
 
-				//¼ÆËã×îÖÕµÄÈ«¾°Í¼
-				Mat weight_1 = d_mask1 + (1 - mask2).mul(matNot(mask2));//ÕâÀïÈý¸ömatµÄÊý¾ÝÀàÐÍ²»Ò»Ñù
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½È«ï¿½ï¿½Í¼
+				Mat weight_1 = d_mask1 + (1 - mask2).mul(matNot(mask2));//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½matï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í²ï¿½Ò»ï¿½ï¿½
 				Mat weight_2 = mask2 + d_mask3;
 
 				Mat tempOfSim = matNot(mask2);

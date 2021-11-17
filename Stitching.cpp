@@ -56,10 +56,10 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	int imgH = images[0].rows;
 	vector<Mat>grayImages(NUMOFIMAGES);
 	vector<Mat>doubleImages(NUMOFIMAGES);
-	//1 ¼ÆËãÆ½ÒÆ¾ØÕó
+	//1 ï¿½ï¿½ï¿½ï¿½Æ½ï¿½Æ¾ï¿½ï¿½ï¿½
 	for (int i = 0; i < NUMOFIMAGES; i++)
 	{
-		cvtColor(images[i], grayImages[i], CV_BGR2GRAY);
+		cvtColor(images[i], grayImages[i], cv::COLOR_BGR2GRAY);
 		T[i] = Mat(3, 3, CV_64F);
 		T[i].at<double>(0, 0) = 1; T[i].at<double>(0, 1) = 0; T[i].at<double>(0, 2) = -(imgW + 1) / 2;
 		T[i].at<double>(1, 0) = 0; T[i].at<double>(1, 1) = -1; T[i].at<double>(1, 2) = (imgH + 1) / 2;
@@ -68,9 +68,9 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 
 	}
 
-	//¼ÆËã2Ïà¶ÔÓÚ1µÄµ¥Ó¦ÐÔ¾ØÕó
+	//ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½Äµï¿½Ó¦ï¿½Ô¾ï¿½ï¿½ï¿½
 	Mat H_matrices[3];
-	Mat tempH = calculateHomography(grayImages[0], grayImages[1], H_matrices);//ÔÚÕâÀï Òª¼ÆËãÈ«¾ÖµÄtheta Ò²Òª¼ÆËãÉÏÏÂÇøÓò²»Í¬µÄÇøÓò,·µ»ØÖµÊÇÈ«¾Ö
+	Mat tempH = calculateHomography(grayImages[0], grayImages[1], H_matrices);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Òªï¿½ï¿½ï¿½ï¿½È«ï¿½Öµï¿½theta Ò²Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½È«ï¿½ï¿½
 	cout << tempH << endl;
 
 	Mat H10 = T[1] * tempH*(T[0].inv());
@@ -82,9 +82,9 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	Mat H01_top = H10_top.inv();
 	Mat H01_down = H10_down.inv();
 	
-	/*ÕâÀïÃ»ÓÐ¼ÆËãmatlab´úÂëÖÐµÄÏà¶ÔÓÚrefºÍtarµÄµ¥Ó¦ÐÔ¾ØÕó*/
+	/*ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð¼ï¿½ï¿½ï¿½matlabï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½refï¿½ï¿½tarï¿½Äµï¿½Ó¦ï¿½Ô¾ï¿½ï¿½ï¿½*/
 
-	//¶ÔH01¾ØÕó½øÐÐ¹éÒ»»¯
+	//ï¿½ï¿½H01ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½Ò»ï¿½ï¿½
 	H10 = H10 / H10.at<double>(2, 2);
 	H10_top = H10_top / H10_top.at<double>(2, 2);
 	H10_down = H10_down / H10_down.at<double>(2, 2);
@@ -113,7 +113,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	//compute ub1 and ub2
 
 	double tmpx[2], tmpy[2];
-	double cu[2], cv;//cv ÕâÀïÃ»ÓÐÓÃ£¬¾ÍÊÇÎªÁË´Õ²ÎÊý
+	double cu[2], cv;//cv ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ë´Õ²ï¿½ï¿½ï¿½
 	applyTransform(0, 0, Mat::eye(3, 3, CV_64F), tmpx[0], tmpy[0]);
 	applyTransform(0, 0, H10, tmpx[1], tmpy[1]);
 	Mat temp = Mat(3, 3, CV_64F);
@@ -123,7 +123,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	applyTransform(tmpx[0], tmpy[0], temp, cu[0], cv);
 	applyTransform(tmpx[1], tmpy[1], temp, cu[1], cv);
 
-	//ÕâÀïÎªÊ²Ã´Çó×îÐ¡ÖµºÍ×î´óÖµ--wyw-matlab
+	//ï¿½ï¿½ï¿½ï¿½ÎªÊ²Ã´ï¿½ï¿½ï¿½ï¿½Ð¡Öµï¿½ï¿½ï¿½ï¿½ï¿½Öµ--wyw-matlab
 	double oriub1 = min(cu[0], cu[1]);
 	double oriub2 = max(cu[0], cu[1]);
 
@@ -131,12 +131,12 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	int s_itv = 20;
 	double ub1, ub2;
 	Mat c1para[5];
-	Mat totalcost_table = Mat(51, 91, CV_64F, Scalar(0));//ÕâÀïµÄ51 ºÍ 91ÊÇ¸ù¾ÝÏÂÃæµÄÑ­»·Ëã³öÀ´µÄ
+	Mat totalcost_table = Mat(51, 91, CV_64F, Scalar(0));//ï¿½ï¿½ï¿½ï¿½ï¿½51 ï¿½ï¿½ 91ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Mat H[2];
 	H[0] = H10;
 	H[1] = Mat::eye(3, 3, CV_64F);
 	//Mat totalcost_table;
-	//¿ÉÒÔ´ÓforÑ­»·Ìá³öµÄÔËËã
+	//ï¿½ï¿½ï¿½Ô´ï¿½forÑ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	Mat theta_cos_sin = Mat(3, 3, CV_64F);
 	theta_cos_sin.at<double>(0, 0) = cosf(theta); theta_cos_sin.at<double>(0, 1) = sinf(theta); theta_cos_sin.at<double>(0, 2) = 0;
@@ -238,7 +238,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 					//cout << v_mask << endl;
 
 					if (reg == 0)
-						A = H01*H[num];//×¢ÒâÕâÀï¼ÆËã½á¹û---wyw
+						A = H01*H[num];//×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½---wyw
 					else if (reg == 1)
 						A = tempH_rotate[num];
 					else if (reg == 2)
@@ -253,7 +253,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 					h[3] = A.at<double>(1, 0); h[4] = A.at<double>(1, 1); h[5] = A.at<double>(1, 2);
 					h[6] = A.at<double>(2, 0); h[7] = A.at<double>(2, 1); h[8] = A.at<double>(2, 2);
 
-					//ÕâÀïÓÐ³ý·¨£¬ÐèÒª×Ô¼ºÐ´Ò»¸öº¯Êý±£Ö¤¾ØÕóÖÐÎª0µÄ²»²Î¼ÓÔËËã
+					//ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ô¼ï¿½Ð´Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª0ï¿½Ä²ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½
 
 					Mat src1, common_divisor, common_divisor_2, dst;
 					Mat J11, J12, J21, J22;
@@ -370,7 +370,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 				double avg_alpha = s1.val[0];
 				Scalar s2 = (sum(J21_map) - sum(J12_map)) / (J11_map.cols*J11_map.rows * 2);
 				double avg_beta = s2.val[0];
-				//ÕâÀïÖ®Ç°Ò²Ð´´íÁË
+				//ï¿½ï¿½ï¿½ï¿½Ö®Ç°Ò²Ð´ï¿½ï¿½ï¿½ï¿½
 				J11_map = J11_map - avg_alpha;
 				J12_map = J12_map + avg_beta;
 				J21_map = J21_map - avg_beta;
@@ -498,7 +498,7 @@ void computeC1Params(Mat H, Mat t, double c, double theta, double ub1, double ub
 		beta = scaling*sinf(theta);
 
 		ge.at<double>(0, 0) = q2 / (1 - c*ub1);
-		ge.at<double>(1, 0) = scaling*cosf(theta);//ÕâÀïÖ®Ç°Ò²Ð´´íÁË¡£¡£¡£¡£
+		ge.at<double>(1, 0) = scaling*cosf(theta);//ï¿½ï¿½ï¿½ï¿½Ö®Ç°Ò²Ð´ï¿½ï¿½ï¿½Ë¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ge.at<double>(2, 0) = c*q2 / ((1 - c*ub1) *(1 - c*ub1));
 		ge.at<double>(3, 0) = 0;
 		sol = G.inv()*ge;
@@ -608,7 +608,7 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 
 
 
-	///*opencv 2.x °æ±¾
+	///*opencv 2.x ï¿½æ±¾
 	//SiftFeatureDetector sift;
 	//sift.detect(image1Equalized, keyPoints_0);
 	//sift.detect(image2Equalized, keyPoints_1);

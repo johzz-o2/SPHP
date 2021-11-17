@@ -15,7 +15,7 @@ void dotDivide(Mat src1, Mat src2, Mat &dst)
 		{
 			if (data2[j] == 0)
 			{
-				cout << "¾ØÕóÓÐÎó£¬·Ö×ÓÎª0" << endl;
+				cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬·ï¿½ï¿½ï¿½Îª0" << endl;
 				break;
 			}
 			data_dst[j] = data1[j] / data2[j];
@@ -23,7 +23,7 @@ void dotDivide(Mat src1, Mat src2, Mat &dst)
 	}
 }
 
-Mat matrix2Array(Mat matrix, Mat mask)//ÊÇ°´ÁÐÉú³ÉÊý×éµÄ
+Mat matrix2Array(Mat matrix, Mat mask)//ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 	Mat mask_double = Mat(mask.rows,mask.cols, matrix.type());
 	mask.convertTo(mask_double, matrix.type());
@@ -102,7 +102,7 @@ Mat applyTransform(Mat input,Mat t)
 	}
 	return dst;
 }
-Mat matNot(Mat input)//inputÖÐËùÓÐ²»µÈÓÚ0µÄÊý¶¼µÈÓÚ1
+Mat matNot(Mat input)//inputï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
 {
 	Mat output = Mat(input.rows, input.cols, CV_64F, Scalar(0));
 	for (int i = 0; i < input.rows; i++)

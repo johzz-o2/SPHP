@@ -3,16 +3,16 @@
 #include <time.h>
 #include <fstream>
 
-//#include "opencv2/imgproc/imgproc.hpp"
-//#include "opencv2/highgui/highgui.hpp"
-////#include "opencv2/legacy/legacy.hpp"
-//#include "opencv2/nonfree/features2d.hpp"
-//#include "opencv2/stitching/stitcher.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
+// #include "opencv2/legacy/legacy.hpp"
+#include "opencv2/features2d.hpp"
+// #include "opencv2/stitching/stitcher.hpp"
+#include "opencv2/stitching.hpp"
 
-#include "opencv3\opencv.hpp"
+// #include "opencv3\opencv.hpp"
 #include <stdio.h>
 #include "Stitching.h"
-
 
 
 using namespace cv;
@@ -42,25 +42,25 @@ using namespace std;
 //#pragma comment(lib, "opencvLib\\release\\opencv_nonfree248.lib")
 //#pragma comment(lib, "opencvLib\\release\\opencv_flann248.lib")
 
-//opencv 3.x °æ±¾µÄ¿â
-#pragma comment(lib, "opencv3\\lib\\opencv_core320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_calib3d320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_objdetect320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_imgcodecs320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_highgui320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_imgproc320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_features2d320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_flann320d.lib")
-#pragma comment(lib, "opencv3\\lib\\opencv_xfeatures2d320d.lib")
+// opencv 3.x ï¿½æ±¾ï¿½Ä¿ï¿½
+// #pragma comment(lib, "opencv3\\lib\\opencv_core320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_calib3d320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_objdetect320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_imgcodecs320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_highgui320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_imgproc320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_features2d320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_flann320d.lib")
+// #pragma comment(lib, "opencv3\\lib\\opencv_xfeatures2d320d.lib")
 
 
 
-void main()
+int main()
 {
 	Mat srcImage[2], dst;
 	Mat srcImageResize[2];
-	srcImage[0] = imread("images//railtracks_01.jpg", 1);
-	srcImage[1] = imread("images//railtracks_02.jpg", 1);
+	srcImage[0] = imread("images/1.JPG", 1);
+	srcImage[1] = imread("images/2.JPG", 1);
 	float ratio = 0.2;
 	if (srcImage[0].cols > 1500 || srcImage[0].rows > 1500)
 	{
@@ -94,7 +94,7 @@ void main()
 	srcImage0_270.copyTo(tempImage[0]);
 	srcImage1_270.copyTo(tempImage[1]);*/
 	
-	//SPHPËã·¨ÊµÏÖ
+	//SPHPï¿½ã·¨Êµï¿½ï¿½
 	
 	
 	imshow("stitching result",dst);

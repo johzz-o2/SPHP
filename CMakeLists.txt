@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_BUILD_TYPE Release)
+SET(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Wextra -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wlogical-op -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual")
+SET(GCC_COVERAGE_LINK_FLAGS    "-lgcov")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
+
+project( main )
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
+find_package( OpenCV REQUIRED )
+message("${OpenCV_INCLUDE_DIRS}")
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( main main.cpp Stitching.cpp texturemapping.cpp coorTrans.cpp )
+target_link_libraries( main ${OpenCV_LIBS} )

@@ -5,8 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         
+        
         {
-            "name": "(gdb) Launch",
+            "name": "SPHP",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main",
@@ -22,7 +23,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }

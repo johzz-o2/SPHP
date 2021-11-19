@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
-set(CMAKE_BUILD_TYPE Release)
-SET(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Wextra -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wlogical-op -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual")
+set(CMAKE_BUILD_TYPE Debug)
+SET(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Wextra -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wlogical-op -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual -g")
 SET(GCC_COVERAGE_LINK_FLAGS    "-lgcov")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")

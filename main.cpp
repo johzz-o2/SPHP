@@ -59,8 +59,8 @@ int main()
 {
 	Mat srcImage[2], dst;
 	Mat srcImageResize[2];
-	srcImage[0] = imread("images/1.JPG", 1);
-	srcImage[1] = imread("images/2.JPG", 1);
+	srcImage[0] = imread("./images/1.JPG", 1);
+	srcImage[1] = imread("./images/2.JPG", 1);
 	float ratio = 0.2;
 	if (srcImage[0].cols > 1500 || srcImage[0].rows > 1500)
 	{

@@ -20,3 +20,4 @@ void dotDivide(Mat src1, Mat src2, Mat &dst);
 void applyTransform(double i, double j, Mat H, double& outi, double &outj);
 Mat applyTransform(Mat input, Mat t);
 Mat matNot(Mat input);
+string type2str(int type);

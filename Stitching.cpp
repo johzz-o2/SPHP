@@ -71,13 +71,15 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	//����2�����1�ĵ�Ӧ�Ծ���
 	Mat H_matrices[3];
 	Mat tempH = calculateHomography(grayImages[0], grayImages[1], H_matrices);//������ Ҫ����ȫ�ֵ�theta ҲҪ������������ͬ������,����ֵ��ȫ��
+	cout << "temp H\n";
 	cout << tempH << endl;
+	cout << "********\n";
 
 	Mat H10 = T[1] * tempH*(T[0].inv());
 	Mat H10_top = T[1] * H_matrices[1]*(T[0].inv());
 	Mat H10_down = T[1] * H_matrices[2] * (T[0].inv());
 	cout << H10 << endl;
-
+	cout << "***H10*****\n";
 	Mat H01 = H10.inv();
 	Mat H01_top = H10_top.inv();
 	Mat H01_down = H10_down.inv();
@@ -100,6 +102,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	//normalize(H10, H10, 1, cv::NORM_L2);
 	//normalize(H01, H01, 1, cv::NORM_L2);
 	cout << H01 << endl;
+	cout << "***H01*****\n";
 	//let H0 be the homography from reference to target, extract its parameters for computing our warp
 	Mat A, t;
 	H01(Rect(0, 0, 2, 2)).copyTo(A);
@@ -231,8 +234,14 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 					Mat A;
 
 					x_mask = matrix2Array(mat_x_out, reg_mask[reg]);
+					// string ty =  type2str( x_mask.type() );
+					// cout << "Matrix x_mask:" << ty.c_str() << " " << x_mask.cols << "x" << x_mask.rows << "\n";
 					//cout << x_mask << endl;
+				
 					y_mask = matrix2Array(mat_y_out, reg_mask[reg]);
+
+					// ty =  type2str( y_mask.type() );
+					// cout << "Matrix y_mask:" << ty.c_str() << " " << y_mask.cols << "x" << y_mask.rows << "\n";
 					//cout << y_mask << endl;
 					
 					//cout << v_mask << endl;
@@ -257,25 +266,33 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 
 					Mat src1, common_divisor, common_divisor_2, dst;
 					Mat J11, J12, J21, J22;
-					common_divisor = (h[6] * x_mask + h[7] * y_mask + 1);
+					common_divisor = ( x_mask.mul(h[6]) + y_mask.mul(h[7]) + 1);
+					
 					//cout << common_divisor << endl;
 					common_divisor_2 = common_divisor.mul(common_divisor);
+					// cout << " common divisor^2\n" << common_divisor_2;
 
-					src1 = h[6] * (h[2] + h[0] * x_mask + h[1] * y_mask);
+					src1 = h[6] * (h[2] + x_mask.mul(h[0]) + y_mask.mul(h[1]));
+					string ty =  type2str( common_divisor_2.type() );
+					cout << "Matrix common_divisor_2:" << ty.c_str() << " " << common_divisor_2.cols << "x" << common_divisor_2.rows << "\n";
+
+					ty =  type2str( src1.type() );
+					cout << "Matrix src1:" << ty.c_str() << " " << src1.cols << "x" << src1.rows << "\n";
+
 					dotDivide(src1, common_divisor_2, dst);
 					J11 = h[0] / common_divisor - dst;
 
-					src1 = h[7] * (h[2] + h[0] * x_mask + h[1] * y_mask);
+					src1 = h[7] * (h[2] + x_mask.mul(h[0]) + y_mask.mul(h[1]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
 					J12 = h[1] / common_divisor - dst;
 
-					src1 = h[6] * (h[5] + h[3] * x_mask + h[4] * y_mask);
+					src1 = h[6] * (h[5] + x_mask.mul(h[3]) + y_mask.mul(h[4]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
 					J21 = h[3] / common_divisor - dst;
 
-					src1 = h[7] * (h[5] + h[3] * x_mask + h[4] * y_mask);
+					src1 = h[7] * (h[5] + x_mask.mul(h[3]) + y_mask.mul(h[4]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
 					J22 = h[4] / common_divisor - dst;
@@ -712,10 +729,14 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 	imshow("img_matches", img_matches);
 	waitKey(0);
-	
-	Hmatrices[0] = H_global;
-	Hmatrices[1] = H_top;
-	Hmatrices[2] = H_down;
 
+	// cout << "1 ************\n";
+
+	Hmatrices[0] = H_global;
+	// cout << "2 ************\n";
+	Hmatrices[1] = H_top;
+	// cout << "3 ************\n";
+	Hmatrices[2] = H_down;
+	// cout << "4 ************\n";
 	return H_global;
 }

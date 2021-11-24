@@ -4,3 +4,4 @@ Makefile
 CMakeFiles/
 *.cmake
 CMakeCache.txt
+dst.jpg

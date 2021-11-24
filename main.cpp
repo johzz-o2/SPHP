@@ -3,11 +3,9 @@
 #include <time.h>
 #include <fstream>
 
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-// #include "opencv2/legacy/legacy.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/highgui.hpp"
 #include "opencv2/features2d.hpp"
-// #include "opencv2/stitching/stitcher.hpp"
 #include "opencv2/stitching.hpp"
 
 // #include "opencv3\opencv.hpp"
@@ -59,9 +57,9 @@ int main()
 {
 	Mat srcImage[2], dst;
 	Mat srcImageResize[2];
-	srcImage[0] = imread("./images/CAVE_01.jpg", 1);
-	srcImage[1] = imread("./images/CAVE_02.jpg", 1);
-	float ratio = 0.2;
+	srcImage[0] = imread("./images/temple_01.jpg", 1);
+	srcImage[1] = imread("./images/temple_02.jpg", 1);
+	float ratio = 0.5;
 	if (srcImage[0].cols > 1500 || srcImage[0].rows > 1500)
 	{
 		resize(srcImage[0], srcImageResize[0], Size(srcImage[0].cols*ratio, srcImage[0].rows*ratio));

@@ -11,7 +11,7 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 
 	double X = 0, Y = 0;
 	double X_temp = 0, Y_temp = 0;
-	double X_map = 0, Y_map = 0;
+	// double X_map = 0, Y_map = 0;
 
 	Mat mapX[2], mapY[2];
 	mapX[0] = Mat(rowNum, colNum, CV_64F, Scalar(0));
@@ -180,7 +180,7 @@ void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpTy
 	Mat masks[2];
 
 	//mapping��Ӧ�ľ���matlab��textureMapping.exe
-	cout << mapX[1] << endl;
+	// cout << mapX[1] << endl;
 	mapping(srcImages, imgW_out, imgH_out, rowStep, colStep, mapX, mapY, dsts, masks);
 
 	imshow("left.jpg", dsts[0]);
@@ -388,7 +388,7 @@ void findMinMaxValue(vector<Point2f> corners_out,float &minx,float &maxx,float &
 {
 	float minValue = 10000000;
 	float maxValue = -100;
-	for (int i = 0; i < corners_out.size(); i++)
+	for (unsigned int i = 0; i < corners_out.size(); i++)
 	{
 		if (corners_out[i].x > maxValue)
 		{
@@ -405,7 +405,7 @@ void findMinMaxValue(vector<Point2f> corners_out,float &minx,float &maxx,float &
 	 minValue = 10000000;
 	 maxValue = -100;
 
-	 for (int i = 0; i < corners_out.size(); i++)
+	 for (unsigned int i = 0; i < corners_out.size(); i++)
 	 {
 		 if (corners_out[i].y > maxValue)
 		 {

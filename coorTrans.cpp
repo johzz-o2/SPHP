@@ -2,7 +2,7 @@
 
 
 void dotDivide(Mat src1, Mat src2, Mat &dst)
-{
+{	
 	assert(src1.rows == src2.rows&&src1.cols == src2.cols);
 	dst = Mat(src1.rows,src1.cols,src1.type());
 
@@ -15,7 +15,7 @@ void dotDivide(Mat src1, Mat src2, Mat &dst)
 		{
 			if (data2[j] == 0)
 			{
-				cout << "�������󣬷���Ϊ0" << endl;
+				cout << "division by 0" << endl;
 				break;
 			}
 			data_dst[j] = data1[j] / data2[j];
@@ -37,8 +37,9 @@ Mat matrix2Array(Mat matrix, Mat mask)//�ǰ������������
 	Mat mask_array;
 
 	int rows = mask_NonZero.rows;
+
 	if(rows == 0){
-		mask_array = Mat(0,0,CV_64FC1);
+		mask_array = Mat(1,1,CV_64F, Scalar(0));
 	}
 	else{
 		mask_array = Mat(rows,1,CV_64F);

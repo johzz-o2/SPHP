@@ -72,7 +72,6 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	Mat tempH = calculateHomography(grayImages[0], grayImages[1], H_matrices);//������ Ҫ����ȫ�ֵ�theta ҲҪ������������ͬ������,����ֵ��ȫ��
 	cout << "temp H\n";
 	cout << tempH << endl;
-	cout << "********\n";
 
 	Mat H10 = T[1] * tempH*(T[0].inv());
 	Mat H10_top = T[1] * H_matrices[1]*(T[0].inv());
@@ -232,27 +231,9 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 					Mat x_mask, y_mask, u_mask, v_mask;
 					// Mat A; // TODO: shadowing another Mat A ... check if this is correct or not 
 
-					// string ty =  type2str( reg_mask[reg].type() );
-					// cout << "Reg_mask:" << ty.c_str() << " " << reg_mask[reg].cols << "x" << reg_mask[reg].rows << "\n";
-
-					// ty =  type2str( mat_x_out.type() );
-					// cout << "Mat_x_Out:" << ty.c_str() << " " << mat_x_out.cols << "x" << mat_x_out.rows << "\n";
-
-					// ty =  type2str( mat_x_out.type() );
-					// cout << "Mat_y_Out:" << ty.c_str() << " " << mat_y_out.cols << "x" << mat_y_out.rows << "\n";
-
 					x_mask = matrix2Array(mat_x_out, reg_mask[reg]);
-					// ty =  type2str( x_mask.type() );
-					// cout << "Matrix x_mask:" << ty.c_str() << " " << x_mask.cols << "x" << x_mask.rows << "\n";
-					//cout << x_mask << endl;
 				
 					y_mask = matrix2Array(mat_y_out, reg_mask[reg]);
-
-					// ty =  type2str( y_mask.type() );
-					// cout << "Matrix y_mask:" << ty.c_str() << " " << y_mask.cols << "x" << y_mask.rows << "\n";
-					//cout << y_mask << endl;
-					
-					//cout << v_mask << endl;
 
 					if (reg == 0)
 						A = H01*H[num];//ע�����������---wyw
@@ -276,7 +257,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 					Mat J11, J12, J21, J22;
 					common_divisor = ( x_mask.mul(h[6]) + y_mask.mul(h[7]) + 1);
 					
-					// ty =  type2str( common_divisor.type() );
+					// string ty =  type2str( common_divisor.type() );
 					// cout << "Matrix common_divisor:" << ty.c_str() << " " << common_divisor.cols << "x" << common_divisor.rows << "\n";
 
 					//cout << common_divisor << endl;
@@ -285,41 +266,33 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 					// ty =  type2str( common_divisor_2.type() );
 					// cout << "Matrix common_divisor_2:" << ty.c_str() << " " << common_divisor_2.cols << "x" << common_divisor_2.rows << "\n";
 
+					// cout << "value of h[6]=" << h[6] << "\n";
 					src1 = h[6] * (h[2] + x_mask.mul(h[0]) + y_mask.mul(h[1]));
 					
 					// ty =  type2str( src1.type() );
 					// cout << "Matrix src1:" << ty.c_str() << " " << src1.cols << "x" << src1.rows << "\n";
 
 					dotDivide(src1, common_divisor_2, dst);
-					// cout << "print dst \n";
-					// cout << dst ;
-
-					// if (countNonZero(common_divisor) > 1) {
-						J11 = h[0] / common_divisor - dst;
-					// }
-
+					
+					J11 = h[0] / common_divisor - dst;
+					
 					src1 = h[7] * (h[2] + x_mask.mul(h[0]) + y_mask.mul(h[1]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
-
-					// if (countNonZero(common_divisor) > 1) {
-						J12 = h[1] / common_divisor - dst;
-					// }
+					
+					J12 = h[1] / common_divisor - dst;
+					
 					src1 = h[6] * (h[5] + x_mask.mul(h[3]) + y_mask.mul(h[4]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
 
-					// if (countNonZero(common_divisor) > 1) {
-						J21 = h[3] / common_divisor - dst;
-					// }
+					J21 = h[3] / common_divisor - dst;
 
 					src1 = h[7] * (h[5] + x_mask.mul(h[3]) + y_mask.mul(h[4]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
 
-					// if (countNonZero(common_divisor) > 1) {
-						J22 = h[4] / common_divisor - dst;
-					// }
+					J22 = h[4] / common_divisor - dst;
 					
 
 					if (reg == 1)
@@ -440,14 +413,14 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	ub1 = oriub1 + min_value_loc.x * 10 - 300;
 	ub2 = oriub2 + min_value_loc.y * 10 - 300;
 
-	cout << "ub1=" << ub1 << "," << "ub2=" << ub2 << endl;
+	// cout << "ub1=" << ub1 << "," << "ub2=" << ub2 << endl;
 
 	computeC1Params(H01, t, c, theta, ub1, ub2, zeroR_on, c1para);
 
 	int gridSize = 10;
 	////texture mapping
 	//void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpType, Mat*T, Mat* H, Mat* c1para, Mat &dst)
-	cout << "texture mapping ...\n";
+	// cout << "texture mapping ...\n";
 	textureMapping(images, gridSize, imgW, imgH, warpType, T, H01, H, H01_matrices, c1para, theta, dst, ub1, ub2, zeroR_on);
 
 	return 1;
@@ -602,10 +575,11 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 {
 	Mat H_global;
 	Mat H_top, H_down;
-	vector<cv::KeyPoint> keyPoints_0, keyPoints_1;
-	Mat descriptors_0, descriptors_1;
+	/* ORB descriptor & GSM matching*/
+	// vector<cv::KeyPoint> keyPoints_0, keyPoints_1;
+	// Mat descriptors_0, descriptors_1;
 	
-	Mat image1Equalized, image2Equalized;
+	// Mat image1Equalized, image2Equalized;
 	// equalizeHist(image1, image1Equalized);
 	// equalizeHist(image2, image2Equalized);
 
@@ -613,39 +587,39 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 
 
 	//vector<KeyPoint> kp1, kp2;
-	Mat d1, d2;
-	vector<DMatch> matches_all, matches_gms;
+	// Mat d1, d2;
+	// vector<DMatch> matches_all, matches_gms;
 
-	Ptr<ORB> orb = ORB::create(10000);
-	orb->setFastThreshold(0);
-	orb->detectAndCompute(image1, Mat(), keyPoints_0, d1);
-	orb->detectAndCompute(image2, Mat(), keyPoints_1, d2);
+	// Ptr<ORB> orb = ORB::create(10000);
+	// orb->setFastThreshold(0);
+	// orb->detectAndCompute(image1, Mat(), keyPoints_0, d1);
+	// orb->detectAndCompute(image2, Mat(), keyPoints_1, d2);
 
-#ifdef USE_GPU
-	GpuMat gd1(d1), gd2(d2);
-	Ptr<cuda::DescriptorMatcher> matcher = cv::cuda::DescriptorMatcher::createBFMatcher(NORM_HAMMING);
-	matcher->match(gd1, gd2, matches_all);
-#else
-	BFMatcher matcher(NORM_HAMMING);
-	matcher.match(d1, d2, matches_all);
-#endif
+// #ifdef USE_GPU
+// 	GpuMat gd1(d1), gd2(d2);
+// 	Ptr<cuda::DescriptorMatcher> matcher = cv::cuda::DescriptorMatcher::createBFMatcher(NORM_HAMMING);
+// 	matcher->match(gd1, gd2, matches_all);
+// #else
+// 	BFMatcher matcher(NORM_HAMMING);
+// 	matcher.match(d1, d2, matches_all);
+// #endif
 
 	// GMS filter need opencv 3.x
-	int num_inliers = 0;
-	std::vector<bool> vbInliers;
-	gms_matcher gms(keyPoints_0, image1.size(), keyPoints_1, image2.size(), matches_all);
-	num_inliers = gms.GetInlierMask(vbInliers, false, false);
+	// int num_inliers = 0;
+	// std::vector<bool> vbInliers;
+	// gms_matcher gms(keyPoints_0, image1.size(), keyPoints_1, image2.size(), matches_all);
+	// num_inliers = gms.GetInlierMask(vbInliers, false, false);
 
-	cout << "Get total " << num_inliers << " matches." << endl;
+	// cout << "Get total " << num_inliers << " matches." << endl;
 
-	// draw matches
-	for (size_t i = 0; i < vbInliers.size(); ++i)
-	{
-		if (vbInliers[i] == true)
-		{
-			matches_gms.push_back(matches_all[i]);
-		}
-	}
+	// // draw matches
+	// for (size_t i = 0; i < vbInliers.size(); ++i)
+	// {
+	// 	if (vbInliers[i] == true)
+	// 	{
+	// 		matches_gms.push_back(matches_all[i]);
+	// 	}
+	// }
 
 
 
@@ -699,6 +673,29 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 	//}
 
 	
+	//-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
+    int minHessian = 50;
+    Ptr<SURF> detector = SURF::create( minHessian);
+    std::vector<KeyPoint> keypoints1, keypoints2;
+    Mat descriptors1, descriptors2;
+    detector->detectAndCompute( image1, noArray(), keypoints1, descriptors1 );
+    detector->detectAndCompute( image2, noArray(), keypoints2, descriptors2 );
+    //-- Step 2: Matching descriptor vectors with a FLANN based matcher
+    // Since SURF is a floating-point descriptor NORM_L2 is used
+    Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create(DescriptorMatcher::FLANNBASED);
+    std::vector< std::vector<DMatch> > knn_matches;
+    matcher->knnMatch( descriptors1, descriptors2, knn_matches, 2 );
+    //-- Filter matches using the Lowe's ratio test
+    const float ratio_thresh = 0.7f;
+    std::vector<DMatch> good_matches;
+    for (size_t i = 0; i < knn_matches.size(); i++)
+    {
+        if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
+        {
+            good_matches.push_back(knn_matches[i][0]);
+        }
+    }
+   
 
 	std::vector<Point2f> obj_global;//1
 	std::vector<Point2f> scene_global;//2
@@ -709,11 +706,11 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 	std::vector<Point2f> obj_down;//1
 	std::vector<Point2f> scene_down;//2
 
-	for (unsigned int i = 0; i < matches_gms.size(); i++)
+	for (unsigned int i = 0; i < good_matches.size(); i++)
 	{
 		//-- Get the keypoints from the good matches
-		Point2f kPoint0 = keyPoints_0[matches_gms[i].queryIdx].pt;
-		Point2f kPoint1 = keyPoints_1[matches_gms[i].trainIdx].pt;
+		Point2f kPoint0 = keypoints1[good_matches[i].queryIdx].pt;
+		Point2f kPoint1 = keypoints2[good_matches[i].trainIdx].pt;
 
 		obj_global.push_back(kPoint0);
 		scene_global.push_back(kPoint1);
@@ -732,35 +729,31 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 			scene_down.push_back(kPoint1);
 		}
 
-
 	}
 
-	H_global = cv::findHomography(obj_global, scene_global, RANSAC);
+	H_global = findHomography(obj_global, scene_global, RANSAC);
 	cout << "global homography matrix" << endl;
 	cout << H_global << endl<<endl;
 
-	H_top = cv::findHomography(obj_top, scene_top, RANSAC);
+	H_top = findHomography(obj_top, scene_top, RANSAC);
 	cout << "top homography matrix" << endl;
 	cout << H_top << endl << endl;
 
-	H_down = cv::findHomography(obj_down, scene_down, RANSAC);
+	H_down = findHomography(obj_down, scene_down, RANSAC);
 	cout << "bottom homography matrix" << endl;
 	cout << H_down << endl << endl;
 
-	Mat img_matches;
-	drawMatches(image1, keyPoints_0, image2, keyPoints_1,
-		matches_gms, img_matches, Scalar::all(-1), Scalar::all(-1),
-		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
-	imshow("img_matches", img_matches);
+	 //-- Draw matches
+    Mat img_matches;
+    drawMatches( image1, keypoints1, image2, keypoints2, good_matches, img_matches, Scalar::all(-1),
+                 Scalar::all(-1), std::vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+    //-- Show detected matches
+    imshow("Good Matches", img_matches );
 	waitKey(0);
 
-	// cout << "1 ************\n";
-
 	Hmatrices[0] = H_global;
-	// cout << "2 ************\n";
 	Hmatrices[1] = H_top;
-	// cout << "3 ************\n";
 	Hmatrices[2] = H_down;
-	// cout << "4 ************\n";
+
 	return H_global;
 }

@@ -34,8 +34,16 @@ Mat matrix2Array(Mat matrix, Mat mask)//ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿
 	mask.copyTo(mask_NonZero);
 	findNonZero(mask, mask_NonZero);
 
+	Mat mask_array;
+
 	int rows = mask_NonZero.rows;
-	Mat mask_array = Mat(rows,1,CV_64F);
+	if(rows == 0){
+		mask_array = Mat(0,0,CV_64FC1);
+	}
+	else{
+		mask_array = Mat(rows,1,CV_64F);
+	}
+	
 
 	int k = 0;
 	for (int i = 0; i < matrix.cols; i++)

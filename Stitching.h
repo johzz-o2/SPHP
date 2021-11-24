@@ -10,8 +10,9 @@
 // #include "opencv2/imgproc/imgproc_c.h"
 // #include "opencv2/features2d/features2d.hpp"
 // #include "opencv2/legacy/legacy.hpp"
-#include "opencv2/features2d/features2d.hpp"
+// #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/features2d.hpp"
+#include "opencv2/xfeatures2d.hpp"
 // #include "opencv2/stitching/stitcher.hpp"
 #include "opencv2/stitching.hpp"
 #include "opencv2/stitching/warpers.hpp"
@@ -25,11 +26,9 @@
 // #include "opencv3\opencv2\xfeatures2d\nonfree.hpp"
 
 
-
 using namespace cv;
 using namespace std;
 using namespace cv::detail;
-
 
 
 Mat calculateHomography(Mat image1, Mat image2, Mat* Hmatrices);

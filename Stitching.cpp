@@ -1,5 +1,4 @@
 #include "Stitching.h"
-#include "coorTrans.h"
 //#include "ASIFT.h"
 #include "gms_matcher.h"
 
@@ -185,7 +184,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 				mat_x_out.copyTo(mat_v);
 
 				int y_index = 0, x_index = 0;
-				int nReg_mask0_nonZero = 0, nReg_mask1_nonZero = 0, nReg_mask2_nonZero = 0;
+				// int nReg_mask0_nonZero = 0, nReg_mask1_nonZero = 0, nReg_mask2_nonZero = 0;
 				//cout << T[num] << endl;
 
 				//tmpH = invR * H{ref, i};
@@ -231,10 +230,19 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 				for (int reg = 0; reg < 3; reg++)
 				{
 					Mat x_mask, y_mask, u_mask, v_mask;
-					Mat A;
+					// Mat A; // TODO: shadowing another Mat A ... check if this is correct or not 
+
+					// string ty =  type2str( reg_mask[reg].type() );
+					// cout << "Reg_mask:" << ty.c_str() << " " << reg_mask[reg].cols << "x" << reg_mask[reg].rows << "\n";
+
+					// ty =  type2str( mat_x_out.type() );
+					// cout << "Mat_x_Out:" << ty.c_str() << " " << mat_x_out.cols << "x" << mat_x_out.rows << "\n";
+
+					// ty =  type2str( mat_x_out.type() );
+					// cout << "Mat_y_Out:" << ty.c_str() << " " << mat_y_out.cols << "x" << mat_y_out.rows << "\n";
 
 					x_mask = matrix2Array(mat_x_out, reg_mask[reg]);
-					// string ty =  type2str( x_mask.type() );
+					// ty =  type2str( x_mask.type() );
 					// cout << "Matrix x_mask:" << ty.c_str() << " " << x_mask.cols << "x" << x_mask.rows << "\n";
 					//cout << x_mask << endl;
 				
@@ -264,39 +272,54 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 
 					//�����г�������Ҫ�Լ�дһ��������֤������Ϊ0�Ĳ��μ�����
 
-					Mat src1, common_divisor, common_divisor_2, dst;
+					Mat src1, common_divisor, common_divisor_2;//, dst;
 					Mat J11, J12, J21, J22;
 					common_divisor = ( x_mask.mul(h[6]) + y_mask.mul(h[7]) + 1);
 					
+					// ty =  type2str( common_divisor.type() );
+					// cout << "Matrix common_divisor:" << ty.c_str() << " " << common_divisor.cols << "x" << common_divisor.rows << "\n";
+
 					//cout << common_divisor << endl;
 					common_divisor_2 = common_divisor.mul(common_divisor);
-					// cout << " common divisor^2\n" << common_divisor_2;
+
+					// ty =  type2str( common_divisor_2.type() );
+					// cout << "Matrix common_divisor_2:" << ty.c_str() << " " << common_divisor_2.cols << "x" << common_divisor_2.rows << "\n";
 
 					src1 = h[6] * (h[2] + x_mask.mul(h[0]) + y_mask.mul(h[1]));
-					string ty =  type2str( common_divisor_2.type() );
-					cout << "Matrix common_divisor_2:" << ty.c_str() << " " << common_divisor_2.cols << "x" << common_divisor_2.rows << "\n";
-
-					ty =  type2str( src1.type() );
-					cout << "Matrix src1:" << ty.c_str() << " " << src1.cols << "x" << src1.rows << "\n";
+					
+					// ty =  type2str( src1.type() );
+					// cout << "Matrix src1:" << ty.c_str() << " " << src1.cols << "x" << src1.rows << "\n";
 
 					dotDivide(src1, common_divisor_2, dst);
-					J11 = h[0] / common_divisor - dst;
+					// cout << "print dst \n";
+					// cout << dst ;
+
+					// if (countNonZero(common_divisor) > 1) {
+						J11 = h[0] / common_divisor - dst;
+					// }
 
 					src1 = h[7] * (h[2] + x_mask.mul(h[0]) + y_mask.mul(h[1]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
-					J12 = h[1] / common_divisor - dst;
 
+					// if (countNonZero(common_divisor) > 1) {
+						J12 = h[1] / common_divisor - dst;
+					// }
 					src1 = h[6] * (h[5] + x_mask.mul(h[3]) + y_mask.mul(h[4]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
-					J21 = h[3] / common_divisor - dst;
+
+					// if (countNonZero(common_divisor) > 1) {
+						J21 = h[3] / common_divisor - dst;
+					// }
 
 					src1 = h[7] * (h[5] + x_mask.mul(h[3]) + y_mask.mul(h[4]));
 					//src2 = (h[6] * x_mask + h[7] * y_mask + 1).mul((h[6] * x_mask + h[7] * y_mask + 1));
 					dotDivide(src1, common_divisor_2, dst);
-					J22 = h[4] / common_divisor - dst;
 
+					// if (countNonZero(common_divisor) > 1) {
+						J22 = h[4] / common_divisor - dst;
+					// }
 					
 
 					if (reg == 1)
@@ -410,7 +433,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 		}
 		j_cost++;
 	}
-	double min_value, max_value;
+	// double min_value, max_value;
 	Point min_value_loc=findMinLocation(totalcost_table);
 	//minMaxLoc(totalcost_table, &min_value, &max_value, &min_value_loc, 0);
 
@@ -424,6 +447,7 @@ int stitching(Mat* images, int warpType, Mat &dst, int zeroR_on)
 	int gridSize = 10;
 	////texture mapping
 	//void textureMapping(Mat* srcImages, int gridSize, int imgW, int imgH, int warpType, Mat*T, Mat* H, Mat* c1para, Mat &dst)
+	cout << "texture mapping ...\n";
 	textureMapping(images, gridSize, imgW, imgH, warpType, T, H01, H, H01_matrices, c1para, theta, dst, ub1, ub2, zeroR_on);
 
 	return 1;
@@ -582,10 +606,10 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 	Mat descriptors_0, descriptors_1;
 	
 	Mat image1Equalized, image2Equalized;
-	//equalizeHist(image1, image1Equalized);
-	//equalizeHist(image2, image2Equalized);
+	// equalizeHist(image1, image1Equalized);
+	// equalizeHist(image2, image2Equalized);
 
-	//Ptr<Feature2D> f2d = xfeatures2d::SIFT::create();
+	// Ptr<Feature2D> f2d = xfeatures2d::SIFT::create();
 
 
 	//vector<KeyPoint> kp1, kp2;
@@ -685,7 +709,7 @@ Mat calculateHomography(Mat image1, Mat image2,Mat* Hmatrices)
 	std::vector<Point2f> obj_down;//1
 	std::vector<Point2f> scene_down;//2
 
-	for (int i = 0; i < matches_gms.size(); i++)
+	for (unsigned int i = 0; i < matches_gms.size(); i++)
 	{
 		//-- Get the keypoints from the good matches
 		Point2f kPoint0 = keyPoints_0[matches_gms[i].queryIdx].pt;
